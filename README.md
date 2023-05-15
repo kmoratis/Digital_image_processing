@@ -1,11 +1,27 @@
 # Digital_image_processing
 
-#### Raw to RGB image handling
+#### Raw to RGB image transform
 
  - Reading Raw image (.DNG) and extracting useful metadata
 
- - white-balancing, adjusted to Bayer pattern ( 'RGGB', 'BGGR', 'GRBG', 'GBRG' )
+ - White-balancing, adjusted to Bayer pattern ( 'RGGB', 'BGGR', 'GRBG', 'GBRG' )
 
- - nearest-neighbor interpolation - bilinear interpolation
+ - Nearest-neighbor interpolation - bilinear interpolation
 
- - space transforms ( Cam, XYZ, sRGB )
+ - Space transforms ( Cam, XYZ, sRGB )
+
+#### Optical Character Recognition ( Active )
+
+- Find image rotation angle of a text image, using its DFT and horizontal projection
+
+- Image rotation implementation and white-padding
+
+- Find contours of characters contained in an image
+
+- Create training dataset from given image
+
+- Training-validation set split
+
+- Train K-NN and K-means classification models 
+
+- Evaluate models using given test image
