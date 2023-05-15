@@ -16,11 +16,11 @@
 
 - Image rotation implementation and white-padding
 
-- Find contours of characters contained in an image
+- Find the contours of a character contained in an image
 
 - Create training dataset from given image
 
-- Training-validation set split
+- Training - validation set split
 
 - Train K-NN and K-means classification models 
 
