@@ -1,31 +1,38 @@
-function angle = findRotationAngle(x)
+function angle = findRotationAngle(x, precision, fig_show)
 % Finds a more precise evaluation of the rotation angle of the image, by
 % doing a linear search in an area near the evaluated angle given by
-% angleEvaluation funtion.
+% angleEvaluation function.
 %
-% Input:
+% Inputs:
 %   x - the grayscale image, which rotation angle we want to measure
+%   presicion - number of points to be examined in linear search
+%   fig_show - boolean variable, indicating whether the figures of
+%   angleEvaluation will be shown
 %
 % Output:
 %   angle - an evaluation of the rotation angle of the input image
 
-    % call angleEvaluation function to find a first evaluation of the angle
-    angle_eval = angleEvaluation(x);
+    % Call the angleEvaluation function to find a first evaluation of the
+    % angle
+    angle_eval = angleEvaluation(x, fig_show);
 
-    % linear search in a region near evaluated value
-    candidate_angles = linspace(angle_eval-5, angle_eval+5, 100);
+    linear_num_points = precision;
 
-    % Initialize variables
+    % Linear search in a region near the evaluated value
+    candidate_angles = linspace(angle_eval-5, angle_eval+5, linear_num_points);
+
+    candidate_angles = [angle_eval candidate_angles];
+
+    % Initialize the variables
     maxVar = -Inf;
     angle = 0;
-    interp_method = 'bilinear';
 
     % Loop through each candidate angle
     for i = 1:length(candidate_angles)
         % Undo the rotation, using function rotateImage
-        unrotated_img = rotateImage(x, -candidate_angles(i), interp_method);
+        unrotated_img = rotateImage(x, -candidate_angles(i));
 
-        % Calculate brightness projection to the vertical axis
+        % Calculate the brightness projection to the vertical axis
         brightness = sum(unrotated_img, 2);
 
         % Compute the variation in brightness

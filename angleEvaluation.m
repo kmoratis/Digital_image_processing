@@ -1,4 +1,4 @@
-function angle = angleEvaluation(img)
+function angle = angleEvaluation(img, fig_show)
 % Gives a first evaluation of the rotation angle of the input image, using
 % the 2D DFT. The angle is measured from the vertical axis, in a counter-clockwise direction.
 % Notes:
@@ -7,20 +7,24 @@ function angle = angleEvaluation(img)
 %   - the function is not exactly accurate, because of the limited analysis
 %   of the DFT
 %
-% Input:
+% Inputs:
 %   img - the image in grayscale which rotation angle we want to measure
+%   fig_show - boolean variable indicating whether the figures should be
+%   displayed or not
 %
 % Output:
-%   angle - the evaluation of the angle
+%   angle - the evaluation of the angle (in degrees)
 
     % Blur the image using Gaussian kernel
     blur_kernel = fspecial('gaussian', [10 15], 15);
     blurredImage = conv2(img, blur_kernel, 'same');
     
-    figure('Name', 'Angle Evaluation');
-    subplot(2,2,[1,2]);
-    imshow(blurredImage, []);
-    title('Blurred image');
+    if fig_show
+        figure('Name', 'Angle Evaluation');
+        subplot(2,2,[1,2]);
+        imshow(blurredImage, []);
+        title('Blurred image');
+    end
 
     % Compute the 2D DFT of the image
     dft = fft2(blurredImage);
@@ -35,9 +39,11 @@ function angle = angleEvaluation(img)
     mag_spectrum = abs(dft);
     mag_spectrum = 10 * log(1 + mag_spectrum);
     mag_spectrum = max(mag_spectrum, 0);
-    subplot(2,2,3);
-    imshow(mag_spectrum, []);
-    title('Magnitude spectrum');
+    if fig_show
+        subplot(2,2,3);
+        imshow(mag_spectrum, []);
+        title('Magnitude spectrum');
+    end
     
     % Find the peak of the magnitude of the DFT
     [M, ~] = max(mag_spectrum(:));
@@ -47,9 +53,11 @@ function angle = angleEvaluation(img)
 
     % Binarize image, using the threshold
     bin_img = imbinarize(mag_spectrum, threshold);
-    subplot(2,2,4);
-    imshow(bin_img);
-    title('Binarized image');
+    if fig_show
+        subplot(2,2,4);
+        imshow(bin_img);
+        title('Binarized image');
+    end
 
     % Find points with magnitude more that the treshold
     [row, col, ~] = find(bin_img);

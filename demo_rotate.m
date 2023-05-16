@@ -1,22 +1,27 @@
+% Demo script for demostrating the use of rotateImage function.
+
 close all;
 clear;
 
-% read image
-img = imread('text1.png');
+% Read the image
+img = imread('images/text1.png');
 
-% convert image to grayscale 
+% Convert the image to grayscale 
 gray_img = rgb2gray(img);
 
-% find angle evaluation
-%angle_eval = angleEvaluation(gray_img);
+% Create a figure and display the grayscale image to subplot 1
+figure('Name', 'demo_rotate'), clf, hold on;
+subplot(1,2,1);
+imshow(gray_img);
+title('Input grayscale image')
 
-% rotate image
-angle = 20; %deg
-interp_method = 'bilinear'; 
-rotated_img = rotateImage(gray_img, angle, interp_method);
-% save rotated image
-imwrite(rotated_img, 'rotated_20.png')
-% display rotated image
-figure();
+% Rotate the image, using the rotateImage function
+angle = 60; %deg
+rotated_img = rotateImage(gray_img, angle);
+
+% Save the rotated image
+imwrite(rotated_img, 'images/rotated_60.png')
+% Display the rotated image
+subplot(1,2,2)
 imshow(rotated_img);
-title('Rotated Image');
+title('Rotated image');
