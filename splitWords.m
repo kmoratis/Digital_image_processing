@@ -1,5 +1,5 @@
 function word_imgs = splitWords(img)
-% This function takes a grayscale text image as an input ( after rotation reverse )
+% This function takes a grayscale text image as an input ( after rotation reverse, if needed )
 % and detects all its words. Firstly, it detects all lines, and then for
 % each line it detects its words.
 % Note: If two or more words are underlined as a sentence, meaning
@@ -53,9 +53,14 @@ function word_imgs = splitWords(img)
     
     % Keep the usefull part of the array
     lines = lines(1:lines_found, :);
-    
     %disp(['Lines found: ', num2str(lines_found)]);
+
     total_words_found = 0;
+    
+    % Finding an approximation of the space length in columns, so the
+    % funtion is as responsive as possible (still not perfect)
+    [~, n] = size(img);
+    space_length = ceil(n/110);
 
     % Detect the words of each line, using the projection to the horizontal axis
     for j = 1:lines_found
@@ -68,40 +73,47 @@ function word_imgs = splitWords(img)
 
         % Get white pixels row projection
         white_col = horizontal_proj(1);
-        
-        % Create a threshold near the white value
-        threshold = white_col * 0.98;
-        
+     
         % Create zero array to store word starting and ending points ( we suppose
         % that the words in a line will be less that 100 )
         w_start = 0;
         w_ending = 0;
-        skip = 0;
         
         % For each word save an image containing it
         for i = 2:length(horizontal_proj)
-            if skip > 0
-                skip = skip-1;
-                continue;
-            end
         
             col_proj = horizontal_proj(i);
             % Found start
             if (col_proj ~= white_col) && w_start==0 
                 total_words_found = total_words_found + 1;
-                w_start = i;
+                w_start = i-1;
             end
-            % Found ending - at least 3 white rows
-            if (col_proj >= threshold) && w_start~=0
-                % Check two next rows
-                if (horizontal_proj(i+1) >= threshold) && (horizontal_proj(i+2) >= threshold)
-                    w_ending = i-1;
+            % Found ending - at least (space_length) white rows
+            if (col_proj == white_col) && w_start~=0
+                found_space = 1;
+
+                % Check next rows
+                % Space_length || end of line
+                resp_length = min(space_length, n-i);
+                for k = 1:resp_length
+                    if (horizontal_proj(i+k) == white_col)
+                        continue;
+                    else
+                        found_space = 0;
+                        break;
+                    end
+                end
+                % If all columns after first white are also white (found_space),
+                % then add word to found words
+                if found_space==1
+                    w_ending = i;
                     w_img = curr_line(:, w_start:w_ending);
                     word_imgs(total_words_found) = {w_img};
 
                     w_start = 0;
                     w_ending = 0;
-                    skip = 2; % skip the next two iterations
+                    found_space = 0;
+                    i = i + resp_length; % skip next iterations
                 end
             end
         end     
