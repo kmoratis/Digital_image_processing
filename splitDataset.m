@@ -1,6 +1,16 @@
-function [training_1, testing_1, training_2, testing_2, training_3, testing_3] = splitDataset(dataset_1, dataset_2, dataset_3)
-%SPLITDATASET Summary of this function goes here
-%   Detailed explanation goes here
+function [training_1, testing_1, training_2, testing_2, training_3, testing_3] = splitDataset(dataset_1, dataset_2, dataset_3, seed)
+% Function implementing the train-test split for each dataset.
+%
+% Inputs:
+%   dataset_1 - a cell array containing Nx2 cells containing characters with
+%   one contour, where column 1 contains a cell array with the metric of 
+%   the contour and column 2 contains the labels of the characters (ASCII codes)
+%   dataset_2 - a cell_array with Nx2 cells, simillar with 1, for
+%   characters with two contours
+%   dataset_3 - a cell_array with Nx2 cells, simillar to the rest, for
+%   characters with three contours
+
+    rng(seed);
 
     number_d1 = length(dataset_1);
     number_d2 = length(dataset_2);

@@ -202,21 +202,17 @@ function c = getcontour(x, show_img)
     
         % Store the contour to the appropriate position, inward direction.
         if contours_found == 1
-            if isempty(contour)
-                contours_found = contours_found - 1;
-                break;
-            end
             contour1 = contour;
-        elseif contours_found == 2
-            if isempty(contour)
+        elseif contours_found == 2 
+            % Hypothesis: second contour must be at least 8 pixels - otherwise noise
+            if size(contour, 1) < 8
                 contours_found = contours_found - 1;
-                break;
             end
             contour2 = contour;
         elseif contours_found == 3
-            if isempty(contour)
+            % Hypothesis: third contour must be at least 5 pixels - otherwise noise
+            if size(contour, 1) < 5
                 contours_found = contours_found - 1;
-                break;
             end
             contour3 = contour;
         else

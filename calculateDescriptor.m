@@ -1,6 +1,17 @@
 function char_descriptors = calculateDescriptor(char_contours, N)
-%CALCULATEMETRIC Summary of this function goes here
-%   Detailed explanation goes here
+% Function calculating the descriptors for each contour of a character
+%
+% Inputs:
+%   char_contours - A cell array containing the contour points of each
+%   contour of the character
+%   N - a 1x3 array, containing N1, N2, N3 values ( number of points
+%   describing each contour ), for interpolation
+%
+% Outputs:
+%   char_descriptors - A cell array containing one cell for each contour
+%   found. Each cell contains N1, N2 or N3 values, which is the descriptor
+%   of the character's contour.
+
 
     num_contours = length(char_contours);
     char_descriptors = cell(1, num_contours);

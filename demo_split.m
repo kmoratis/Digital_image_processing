@@ -1,8 +1,10 @@
+% Demo script for demostrating the use of splitWords and splitCharacters functions.
+
 %clear;
 %clc;
 %close all;
 
-path = "text2_150dpi_unrot.png";
+path = "text1_v3.png";
 
 img = imread(path);
 
@@ -33,6 +35,8 @@ end
 
 % Call splitWords function
 words = splitWords(gray_img);
+disp(['Words detected: ', num2str(length(words))]);
 
 % Call splitCharacters function
 chars = splitCharacters(words);
+disp(['Characters detected: ', num2str(length(chars))]);
