@@ -72,6 +72,10 @@ function c = getcontour(x, show_img)
         % When all contours found, exit
         if find(thincp) 
             contours_found = contours_found + 1;
+            if contours_found==4 %More than 3 countours
+                contours_found = contours_found - 1;
+                break;
+            end
         else
             break;
         end
@@ -80,9 +84,14 @@ function c = getcontour(x, show_img)
         [bound_rows, bound_cols] = find(thincp);
         
         min_row = min(bound_rows);
-        topleft_pixel_index = find(bound_rows == min_row, 1);
+        topleft_pixel_index = find(bound_rows == min_row, 1, 'first');
         
         min_col = bound_cols(topleft_pixel_index);
+
+        current = [min_row min_col];
+        prev = [min_row min_col];
+
+        direction = +1; % +1==going right
         
         % Create empty array for contour points with size N == m*n/2. ( Could possibly be picked even smaller ) 
         N = round(m*n/2);
@@ -92,64 +101,89 @@ function c = getcontour(x, show_img)
         % thin image
         contour(1, :) = [min_row, min_col];
         thincp(min_row, min_col) = 0;
-        
-        % Find next point, with respect to right - right,bottom - bottom - left,bottom
-        if thincp(min_row, min_col+1) == 1 % Check right neighbour
-            contour(2, :) = [min_row, min_col+1];
-            thincp(min_row, min_col+1) = 0;
-            current = [min_row, min_col+1];
-        elseif thincp(min_row+1, min_col+1) == 1 % Check bottom-right neighbour
-            contour(2, :) = [min_row+1, min_col+1];
-            thincp(min_row+1, min_col+1) = 0;
-            current = [min_row+1, min_col+1];
-        elseif thincp(min_row+1, min_col) == 1 % Check bottom neighbour
-            contour(2, :) = [min_row+1, min_col];
-            thincp(min_row+1, min_col) = 0;
-            current = [min_row+1, min_col];
-        elseif thincp(min_row+1, min_col-1) == 1 % CHeck bottom-left neighbour
-            contour(2, :) = [min_row+1, min_col-1];
-            thincp(min_row+1, min_col-1) = 0;
-            current = [min_row+1, min_col-1];
-        else
-            disp('Something went wrong, on calculating first two elements');
-        end
            
-        point_num = 2;
+        point_num = 1;
         
         % Iterate through the next points of the contour, until no more neighbours
         % (Full Loop)
         while(true)
-            % Find coordinates of neighbouring points 
-            neighbors_idx = [current(1)-1 current(2)-1;
-                            current(1)-1 current(2);
-                            current(1)-1 current(2)+1;
-                            current(1) current(2)-1;
-                            current(1) current(2)+1;
-                            current(1)+1 current(2)-1;
-                            current(1)+1 current(2);
-                            current(1)+1 current(2)+1];
-    
-            found_neigh = 0;
+
+            if direction == +1 % going right
+                neighbors_idx = [current(1) current(2)+1; %right
+                                current(1)-1 current(2)+1; %upper-right
+                                current(1)-1 current(2); %upper
+                                current(1)+1 current(2)+1 %bottom-right
+                                current(1)+1 current(2); %bottom
+                                current(1)+1 current(2)-1; %bottom-left
+                                current(1)-1 current(2)-1; %upper-left
+                                current(1) current(2)-1; %left
+                                ];
+                found_neigh = 0;
         
-            % Find which one of them is 1 and add it to the contour array
-            for i = 1:size(neighbors_idx, 1)
-        
-                coo = neighbors_idx(i, :);
-                if thincp(coo(1), coo(2)) == 1
-                    % Add point to contour array
-                    contour(point_num+1, :) = neighbors_idx(i,:);
-                    % Make point black
-                    thincp(coo(1), coo(2)) = 0;
-                    % Make it the current point
-                    current = neighbors_idx(i, :);
-                    % Increase number of points by 1
-                    point_num = point_num + 1;
-                    % Change found to 1
-                    found_neigh = 1;
-                    break;
+                % Find which one of them is 1 and add it to the contour array
+                for i = 1:size(neighbors_idx, 1)
+            
+                    coo = neighbors_idx(i, :);
+                    if thincp(coo(1), coo(2)) == 1
+                        % Add point to contour array
+                        contour(point_num+1, :) = neighbors_idx(i,:);
+                        % Make point black
+                        thincp(coo(1), coo(2)) = 0;
+                        % Make it the current point
+                        current = neighbors_idx(i, :);
+                        % Increase number of points by 1
+                        point_num = point_num + 1;
+                        % Change found to 1
+                        found_neigh = 1;
+                        if prev(2) > current(2)
+                            direction = -1; %changed direction to left
+                            %disp('Changed direction to left');
+                        end
+                        prev = current;
+                        break;
+                    end
+                end
+
+            elseif direction==-1 % going left
+                neighbors_idx = [
+                                current(1) current(2)-1; %left
+                                current(1)+1 current(2); %bottom
+                                current(1)+1 current(2)+1 %bottom-right
+                                current(1)+1 current(2)-1; %bottom-left
+                                current(1)-1 current(2)-1; %upper-left
+                                current(1)-1 current(2)+1; %upper-right
+                                current(1)-1 current(2); %upper 
+
+                                current(1) current(2)+1; %right
+                                ];
+
+                found_neigh = 0;
+                
+                % Find which one of them is 1 and add it to the contour array
+                for i = 1:size(neighbors_idx, 1)
+            
+                    coo = neighbors_idx(i, :);
+                    if thincp(coo(1), coo(2)) == 1
+                        % Add point to contour array
+                        contour(point_num+1, :) = neighbors_idx(i,:);
+                        % Make point black
+                        thincp(coo(1), coo(2)) = 0;
+                        % Make it the current point
+                        current = neighbors_idx(i, :);
+                        % Increase number of points by 1
+                        point_num = point_num + 1;
+                        % Change found to 1
+                        found_neigh = 1;
+                        if prev(2) < current(2)
+                            direction = +1; %changed direction to right
+                            %disp('Changed direction to right');
+                        end
+                        prev = current;
+                        break;
+                    end
                 end
             end
-        
+       
             % If there are no more neighbouring points, the iteration was done,
             % exit
             if found_neigh == 0
@@ -168,10 +202,22 @@ function c = getcontour(x, show_img)
     
         % Store the contour to the appropriate position, inward direction.
         if contours_found == 1
+            if isempty(contour)
+                contours_found = contours_found - 1;
+                break;
+            end
             contour1 = contour;
         elseif contours_found == 2
+            if isempty(contour)
+                contours_found = contours_found - 1;
+                break;
+            end
             contour2 = contour;
         elseif contours_found == 3
+            if isempty(contour)
+                contours_found = contours_found - 1;
+                break;
+            end
             contour3 = contour;
         else
             disp('Something went wrong.');
@@ -179,6 +225,7 @@ function c = getcontour(x, show_img)
     end
     % Return the cell array containing each contour found
     c = {contour1, contour2, contour3};
+    c = c(1:contours_found);
 
 end
 
