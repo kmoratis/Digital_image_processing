@@ -19,7 +19,7 @@ function angle = findRotationAngle(x, precision, fig_show)
     linear_num_points = precision;
 
     % Linear search in a region near the evaluated value
-    candidate_angles = linspace(angle_eval-5, angle_eval+5, linear_num_points);
+    candidate_angles = linspace(angle_eval-1, angle_eval+1, linear_num_points);
 
     candidate_angles = [angle_eval candidate_angles];
 

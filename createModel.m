@@ -99,7 +99,7 @@ function [knnModel_1, knnModel_2, knnModel_3] = createModel(path, txt_path, N, s
     % Create and plot the confusion matrix of the model
     figure, clf;
     cm = confusionchart(y_test_c, y_pred_c);
-    cm.Title = 'Model 1: Confusion Matrix';
+    cm.Title = 'Model 1: Confusion Matrix (Validation set)';
     cm.RowSummary = 'row-normalized';
     cm.ColumnSummary = 'column-normalized';
     
@@ -107,7 +107,13 @@ function [knnModel_1, knnModel_2, knnModel_3] = createModel(path, txt_path, N, s
     C = confusionmat(y_test_c, y_pred_c);
     
     class_counts = sum(C, 2);
-    class_accuracies = diag(C) ./ class_counts;
+    class_accuracies = zeros(size(class_counts));  % Initialize accuracies
+    for i = 1:numel(class_counts)
+        if class_counts(i) ~= 0
+            class_accuracies(i) = C(i,i) / class_counts(i);
+        end
+    end
+    fprintf('First evaluation of models, using the validation set: \n');
     class_proportions = class_counts / sum(class_counts);
     weighted_accuracy1 = sum(class_accuracies .* class_proportions);
     fprintf('Model-1: one contour characters, N = %d, k = %d \n', N(1), k);
@@ -153,7 +159,7 @@ function [knnModel_1, knnModel_2, knnModel_3] = createModel(path, txt_path, N, s
     % Create and plot the confusion matrix of the model
     figure, clf;
     cm = confusionchart(y_test_c, y_pred_c);
-    cm.Title = 'Model 2: Confusion Matrix';
+    cm.Title = 'Model 2: Confusion Matrix (Validation set)';
     cm.RowSummary = 'row-normalized';
     cm.ColumnSummary = 'column-normalized';
     
@@ -212,7 +218,7 @@ function [knnModel_1, knnModel_2, knnModel_3] = createModel(path, txt_path, N, s
     % Create and plot the confusion matrix of the model
     figure, clf;
     cm = confusionchart(y_test_c, y_pred_c);
-    cm.Title = 'Model 3: Confusion Matrix';
+    cm.Title = 'Model 3: Confusion Matrix (Validation set)';
     cm.RowSummary = 'row-normalized';
     cm.ColumnSummary = 'column-normalized';
     

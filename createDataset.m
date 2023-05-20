@@ -23,8 +23,9 @@ function [dataset_1, dataset_2, dataset_3] = createDataset(chars, txt_path, N)
     labels = zeros(1, num_txt_chars);
     labels_found = 0;
 
-    % Extract only letters and numbers, '.', ',', '-', '!', '?', ';'
-    cleaned_txt = regexp(txt_chars, '[a-zA-Z0-9.,-!?;]', 'match');
+    % Extract only letters and numbers, '.', ',', '-', '!', '?', ';', '(',
+    % ')', ' ' '
+    cleaned_txt = regexp(txt_chars, "[a-zA-Z0-9().,\-!?;()\']", 'match');
     cleaned_txt = [cleaned_txt{:}];
 
     num_cleaned = length(cleaned_txt);

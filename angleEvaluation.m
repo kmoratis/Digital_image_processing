@@ -1,6 +1,6 @@
 function angle = angleEvaluation(img, fig_show)
 % Gives a first evaluation of the rotation angle of the input image, using
-% the 2D DFT. The angle is measured from the vertical axis, in a counter-clockwise direction.
+% the 2D DFT. The angle is measured from the horizontal axis, in a counter-clockwise direction.
 % Notes:
 %   - the function works for angles in the range [0, 180), due to the
 % symmetry of the DFT.

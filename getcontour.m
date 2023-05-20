@@ -211,7 +211,7 @@ function c = getcontour(x, show_img)
             contour2 = contour;
         elseif contours_found == 3
             % Hypothesis: third contour must be at least 5 pixels - otherwise noise
-            if size(contour, 1) < 5
+            if size(contour, 1) < 4
                 contours_found = contours_found - 1;
             end
             contour3 = contour;

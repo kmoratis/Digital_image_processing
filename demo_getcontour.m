@@ -5,7 +5,7 @@ clc;
 close all;
 
 % Read the image containing the letter
-img = imread('Letters/letter_e.png');
+img = imread('letter_e.png');
 
 % Convert to grayscale
 gray_img = rgb2gray(img);
