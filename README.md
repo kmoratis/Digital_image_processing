@@ -10,7 +10,7 @@
 
  - Space transforms ( Cam, XYZ, sRGB )
 
-#### Optical Character Recognition ( Active )
+#### Optical Character Recognition
 
 - Find image rotation angle of a text image, using its DFT and horizontal projection
 
@@ -22,6 +22,6 @@
 
 - Training - validation set split
 
-- Train K-NN and K-means classification models 
+- Train K-NN classification models
 
 - Evaluate models using given test image
