@@ -25,3 +25,5 @@
 - Train K-NN classification models
 
 - Evaluate models using given test image
+
+#### Image Registration ( Active )
