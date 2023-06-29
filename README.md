@@ -27,3 +27,11 @@
 - Evaluate models using given test image
 
 #### Image Registration ( Active )
+
+- Harris corner detector
+
+- Local rotation-invariant  pixel descriptor
+
+- Descriptor matching
+
+- RANSAC algorithm implementation
