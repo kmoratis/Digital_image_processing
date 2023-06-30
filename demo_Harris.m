@@ -1,4 +1,4 @@
-% Demo script for demostrating the use of myDetectHarrisFeatures and findCorners functions.
+% Demo script for demonstrating the use of myDetectHarrisFeatures and findCorners functions.
 
 close all;
 clc;

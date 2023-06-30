@@ -1,4 +1,4 @@
-% Demo script for demostrating the use of myLocalDescriptor  and 
+% Demo script for demonstrating the use of myLocalDescriptor  and 
 % myLocalDescriptorUpgrade functions.
 
 close all;
