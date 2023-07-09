@@ -26,7 +26,7 @@
 
 - Evaluate models using given test image
 
-#### Image Registration ( Active )
+#### Image Registration 
 
 - Harris corner detector
 
@@ -35,3 +35,5 @@
 - Descriptor matching
 
 - RANSAC algorithm implementation
+
+- Image Stitching
