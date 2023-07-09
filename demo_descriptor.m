@@ -15,15 +15,16 @@ if numberOfColors > 1
     I = rgb2gray(I);
 end
 
-rhom = 5; %5
-rhoM = 10; %10
+rhom = 5;
+rhoM = 20; %10
 rhostep = 1;
-N = 40; %40
+N = 8; %40
 
-p = [500 500];
+p = [202 202];
 
 % Find the descriptor of the p
-d = myLocalDescriptor(I, p, rhom, rhoM, rhostep, N);
+d = myLocalDescriptorUpgrade(I, p, rhom, rhoM, rhostep, N); % use myLocalDescriptorUpgrade || myLocalDescriptor here
+disp('Descriptor of the pixel in the given image: ');
 
 % Find rotated image and new coordinates of p
 angle = 45;
@@ -31,6 +32,9 @@ show_im = true;
 [rotatedImage, rotatedP] = rotateImage(I, angle, p, show_im);
 
 rotatedP = round(rotatedP);
+disp(d');
 
 % Find the descriptor of the p in the rotated image
-d_rot = myLocalDescriptor(rotatedImage, rotatedP, rhom, rhoM, rhostep, N);
+d_rot = myLocalDescriptorUpgrade(rotatedImage, rotatedP, rhom, rhoM, rhostep, N); % use myLocalDescriptorUpgrade || myLocalDescriptor here
+disp('Descriptor of the pixel in the rotated image: ');
+disp(d_rot');

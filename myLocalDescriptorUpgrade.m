@@ -2,7 +2,7 @@ function d = myLocalDescriptorUpgrade(I, p, rhom, rhoM, rhostep, N)
 % An upgraded version of myLocalDescriptor function, implementing a simple 
 % rotation-invariant descriptor of a point's neighborhood.
 % In order this version to be more rotation invariant, we use the image's 
-% gradient orientation, in order to specify a common axis in each point
+% gradient orientation, to specify a common axis in each point
 % from where the angle gets measured.
 %
 % Inputs:
@@ -20,6 +20,13 @@ function d = myLocalDescriptorUpgrade(I, p, rhom, rhoM, rhostep, N)
 
     % Calculate the gradient of the image
     [Gx, Gy] = gradient(double(I));
+
+    size_g = size(Gx);
+
+    if p(2) > size_g(1) || p(1) > size_g(2) || p(1) < 1 || p(2) < 1  
+        d = [];
+        return;
+    end
 
     % Get the gradient orientation at the specific point
     grad_or = atan2(Gy(p(2), p(1)), Gx(p(2), p(1)));
@@ -60,7 +67,7 @@ function d = myLocalDescriptorUpgrade(I, p, rhom, rhoM, rhostep, N)
         d_found = d_found + 1;
         for j = 1:N
             % find angle starting from grad_or
-            theta = deg2rad(thetas(j)) + grad_or;
+            theta = mod(deg2rad(thetas(j)) + grad_or, 360);
             
             % Transform to Cartesian coordinates
             x = p(1) + i*cos(theta);

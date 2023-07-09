@@ -4,8 +4,8 @@ close all;
 clc;
 
 % Read the image
-%I = imread('im1.png');
-I = imread('imForest1.png');
+I = imread('im1.png');
+%I = imread('imForest1.png');
 
 % Get the size of the image
 [height, width, numberOfColors] = size(I);
@@ -16,13 +16,13 @@ if numberOfColors > 1
 end
 
 % Gaussian smoothing parameter
-sigma = 0.3;
+sigma = 0.9; %2.2
 
 % Corner threshold
-threshold = 1000; 
+threshold = 5e+6; 
 
 % Harris k constant
-k = 0.2;
+k = 0.23;
 
 % Parameter for img display
 show_im  = true;

@@ -11,11 +11,11 @@ function c = findCorners(I, sigma, k, Rthres)
 %       ( Bigger k values, makes the algorithm more biased towards
 %       detecting corners in contrast to edges. )
 %   Rthres - threshold value for keeping only the features (corners, edges)
-%   with the strongest R value. (most likely to be true positive)
+%       with the strongest R value. (most likely to be true positive)
 %
 % Output:
 %   c - A boolean vector, containing 1 if the particular pixel of the image
-%   is a corner point.
+%       is a corner point.
 
     % Derivative masks
     [dx, dy] = meshgrid(-1:1, -1:1);

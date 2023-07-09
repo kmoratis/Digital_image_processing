@@ -1,8 +1,21 @@
 function matchingPoints = descriptorMatching(desc1, desc2, percentageThreshold)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+% Function for finding the salient point pairs with the best matches,
+% according to the normalized Euclidean distance of theirs descriptor
+% vectors.
+%
+% Inputs:
+%   desc1 - image_1 salient points descriptors (N1xN2 array, where N1 is
+%       the length of each pixel's descriptor, and N2 is the number of salient
+%       points)
+%   desc2 - image_2 salient points descriptors (N1xN2) array
+%   percentageThreshold - a float number, for keeping only the
+%       (percentageThreshold*100) % best matches, from the total ones.
+%
+% Output:
+%   matchingPoints - a 2xn array of pixel pairs that are most likely to
+%       be matched.
     
-    %% Descriptor Matching
+    % Descriptor Matching
     N1 = size(desc1, 2);
     N2 = size(desc2, 2);
     

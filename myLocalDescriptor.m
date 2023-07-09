@@ -58,7 +58,6 @@ function d = myLocalDescriptor(I, p, rhom, rhoM, rhostep, N)
     
             % Find the pixels corresponding to the x, y
             % Case 1: Both x,y are integers
-            % Take the 
             if mod(x, 1) == 0 && mod(y, 1) == 0
                 sum = I(y-1, x) + I(y+1, x) + I(y, x-1) + I(y, x+1) + I(y,x);
                 point_d(j) = sum / 5;

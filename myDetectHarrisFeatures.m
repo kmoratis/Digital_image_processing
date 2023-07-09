@@ -30,7 +30,6 @@ function corners = myDetectHarrisFeatures(I, sigma, k, Rthres, show_im)
     corners(:, 2) = y;
 
     if show_im
-        %{
         figure, clf;
         mat_corners = detectHarrisFeatures(I, 'MinQuality', 0.1);  %'MinQuality', 0.01 (default)
         imshow(I);
@@ -38,7 +37,6 @@ function corners = myDetectHarrisFeatures(I, sigma, k, Rthres, show_im)
         plot(mat_corners);
         title('Harris corners, using MATLAB implementation');
         hold off
-        %}
 
         % Display the corners on the original image
         figure, clf;

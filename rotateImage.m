@@ -1,6 +1,18 @@
 function [rotatedImage, rotatedP] = rotateImage(I, angle, p, show_im)
-%ROTATEIMAGE Summary of this function goes here
-%   Detailed explanation goes here
+% Auxiliary function for image rotation, and for finding pixel's coordinates in
+% the rotated image.
+%
+% Inputs:
+%   I - a grayscale image, which we want to rotate
+%   angle - a number specifying the rotation angle (in degrees)
+%   p - a pixel (x,y) in the original image (I), which coordinates we want
+%       to find in the transformed one
+%   show_im - a boolean parameter, specifying whether the function will
+%       show some relative to the calculations images
+%
+% Ouputs:
+%   rotatedImage - the grayscale input image (I), rotated by (angle) degrees.
+%   rotatedP - the coordinates of the input pixel (p) in the rotatedImage.
 
     p = p';
 
